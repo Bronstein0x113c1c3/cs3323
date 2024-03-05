@@ -8,7 +8,7 @@ class Polynomial
 {
 private:
     int m_degree = 0;
-    double *m_coefficients;
+    double *m_coefficients = nullptr;
 
 public:
     Polynomial();
@@ -20,9 +20,11 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Polynomial &polynomial);
     friend std::istream &operator>>(std::istream &in, Polynomial &polynomial);
+
+    friend Polynomial &operator+(const Polynomial &polynomial1, const Polynomial &polynomial2);
 };
 
-Polynomial::Polynomial() : m_degree(0), m_coefficients(0) {}
+Polynomial::Polynomial() : m_degree(0), m_coefficients(nullptr) {}
 
 Polynomial::Polynomial(int degree) : m_degree(degree)
 {
@@ -32,10 +34,10 @@ Polynomial::Polynomial(int degree) : m_degree(degree)
 
     // Assign the Coefficients
     int letterAValue = 97;
-    int finalLetter = letterAValue + copyOfDegree + 1;
+    int finalLetter = letterAValue + copyOfDegree;
     for (size_t asciiValue = letterAValue; asciiValue < finalLetter; asciiValue++)
     {
-        if (asciiValue == finalLetter - 1)
+        if (asciiValue == finalLetter)
         {
             break;
         }
@@ -56,13 +58,17 @@ Polynomial::Polynomial(int degree) : m_degree(degree)
     }
 
     // Assign the final coefficient
-    std::cout << "Enter last coefficient e: ";
+    std::cout << std::format(
+        "Enter coefficient {}: ",
+        static_cast<char>(finalLetter));
+        
     std::cin >> this->m_coefficients[copyOfDegree];
 }
 
 Polynomial::~Polynomial()
 {
     delete[] this->m_coefficients;
+    this->m_coefficients = nullptr;
 }
 
 std::ostream &operator<<(std::ostream &os, const Polynomial &polynomial)
@@ -83,8 +89,12 @@ std::ostream &operator<<(std::ostream &os, const Polynomial &polynomial)
         }
         firstTerm = false;
 
-        // Print coefficient and term
-        if (degree > 0)
+        // Print the firstTerm if with minus sign
+        if (degree == polynomial.m_degree)
+        {
+            os << polynomial.m_coefficients[degree] << "x^" << degree;
+        }
+        else if (degree > 0) // Print coefficient and term
         {
             os << std::abs(polynomial.m_coefficients[degree]) << "x^" << degree;
         }
@@ -110,10 +120,10 @@ std::istream &operator>>(std::istream &in, Polynomial &polynomial)
 
     // Assign the Coefficients
     int letterAValue = 97;
-    int finalLetter = letterAValue + copyOfDegree + 1;
+    int finalLetter = letterAValue + copyOfDegree;
     for (size_t asciiValue = letterAValue; asciiValue < finalLetter; asciiValue++)
     {
-        if (asciiValue == finalLetter - 1)
+        if (asciiValue == finalLetter)
         {
             break;
         }
@@ -134,10 +144,59 @@ std::istream &operator>>(std::istream &in, Polynomial &polynomial)
     }
 
     // Assign the final coefficient
-    std::cout << "Enter last coefficient e: ";
+    std::cout << std::format(
+        "Enter coefficient {}: ",
+        static_cast<char>(finalLetter));
+
     in >> polynomial.m_coefficients[copyOfDegree];
 
     return in;
+}
+
+Polynomial &operator+(const Polynomial &polynomial1, const Polynomial &polynomial2)
+{
+    Polynomial *resultPolynomial = new Polynomial();
+
+    // Make A variable to track the small polynomial.degree will use
+    int smaller_PolynomialDegree = -1;
+    if (polynomial1.m_degree > polynomial2.m_degree)
+    {
+        smaller_PolynomialDegree = polynomial2.m_degree;
+        resultPolynomial->m_degree = polynomial1.m_degree;
+    }
+    else if (polynomial1.m_degree < polynomial2.m_degree)
+    {
+        smaller_PolynomialDegree = polynomial1.m_degree;
+        resultPolynomial->m_degree = polynomial2.m_degree;
+    }
+    else // If equal
+    {
+        resultPolynomial->m_degree = polynomial1.m_degree;
+    }
+
+    // Make a coefficient List for the new one
+    resultPolynomial->m_coefficients = new double[resultPolynomial->m_degree];
+
+    // Time to add 2 Polynomials
+    for (size_t degree = 0; degree <= resultPolynomial->m_degree; degree++)
+    {
+        // If 2 polynomial the degree != the same
+        if (smaller_PolynomialDegree > -1)
+        {
+            if (smaller_PolynomialDegree == polynomial1.m_degree)
+            {
+                resultPolynomial->m_coefficients[degree] = polynomial2.m_coefficients[degree];
+            }
+            else // then smaller_PolynomialDegree == polynomial2.m_degree
+            {
+                resultPolynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree];
+            }
+        }
+
+        resultPolynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree] + polynomial2.m_coefficients[degree];
+    }
+
+    return *resultPolynomial;
 }
 
 void Polynomial::Print() const
@@ -158,8 +217,12 @@ void Polynomial::Print() const
         }
         firstTerm = false;
 
-        // Print coefficient and term
-        if (degree > 0)
+        // Print the firstTerm if with minus sign
+        if (degree == this->m_degree)
+        {
+            std::cout << this->m_coefficients[degree] << "x^" << degree;
+        }
+        else if (degree > 0) // Print coefficient and term
         {
             std::cout << std::abs(this->m_coefficients[degree]) << "x^" << degree;
         }
