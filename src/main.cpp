@@ -24,12 +24,21 @@ int main(int argc, char const *argv[])
 
     // Sum of 2
     std::cout << "==============================================================================" << std::endl;
-    Polynomial polynomial = polynomial1 + polynomial2;
+    Polynomial sum = polynomial1 + polynomial2;
     std::cout << polynomial1
               << "\n+\n"
               << polynomial2
               << "\n=\n"
-              << polynomial << std::endl;
+              << sum << std::endl;
+
+    // Product of 2
+    std::cout << "==============================================================================" << std::endl;
+    Polynomial product = polynomial1 * polynomial2;
+    std::cout << polynomial1
+              << "\n*\n"
+              << polynomial2
+              << "\n=\n"
+              << product << std::endl;
 
     return 0;
 }

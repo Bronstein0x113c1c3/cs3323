@@ -22,6 +22,7 @@ public:
     friend std::istream &operator>>(std::istream &in, Polynomial &polynomial);
 
     friend Polynomial &operator+(const Polynomial &polynomial1, const Polynomial &polynomial2);
+    friend Polynomial &operator*(const Polynomial &polynomial1, const Polynomial &polynomial2);
 };
 
 Polynomial::Polynomial() : m_degree(0), m_coefficients(nullptr) {}
@@ -61,7 +62,7 @@ Polynomial::Polynomial(int degree) : m_degree(degree)
     std::cout << std::format(
         "Enter coefficient {}: ",
         static_cast<char>(finalLetter));
-        
+
     std::cin >> this->m_coefficients[copyOfDegree];
 }
 
@@ -155,48 +156,80 @@ std::istream &operator>>(std::istream &in, Polynomial &polynomial)
 
 Polynomial &operator+(const Polynomial &polynomial1, const Polynomial &polynomial2)
 {
-    Polynomial *resultPolynomial = new Polynomial();
+    Polynomial *result_polynomial = new Polynomial();
 
     // Make A variable to track the small polynomial.degree will use
     int smaller_PolynomialDegree = -1;
     if (polynomial1.m_degree > polynomial2.m_degree)
     {
         smaller_PolynomialDegree = polynomial2.m_degree;
-        resultPolynomial->m_degree = polynomial1.m_degree;
+        result_polynomial->m_degree = polynomial1.m_degree;
     }
     else if (polynomial1.m_degree < polynomial2.m_degree)
     {
         smaller_PolynomialDegree = polynomial1.m_degree;
-        resultPolynomial->m_degree = polynomial2.m_degree;
+        result_polynomial->m_degree = polynomial2.m_degree;
     }
     else // If equal
     {
-        resultPolynomial->m_degree = polynomial1.m_degree;
+        result_polynomial->m_degree = polynomial1.m_degree;
     }
 
     // Make a coefficient List for the new one
-    resultPolynomial->m_coefficients = new double[resultPolynomial->m_degree];
+    result_polynomial->m_coefficients = new double[result_polynomial->m_degree];
 
     // Time to add 2 Polynomials
-    for (size_t degree = 0; degree <= resultPolynomial->m_degree; degree++)
+    for (size_t degree = 0; degree <= result_polynomial->m_degree; degree++)
     {
         // If 2 polynomial the degree != the same
-        if (smaller_PolynomialDegree > -1)
+        if (degree > smaller_PolynomialDegree)
         {
             if (smaller_PolynomialDegree == polynomial1.m_degree)
             {
-                resultPolynomial->m_coefficients[degree] = polynomial2.m_coefficients[degree];
+                result_polynomial->m_coefficients[degree] = polynomial2.m_coefficients[degree];
             }
             else // then smaller_PolynomialDegree == polynomial2.m_degree
             {
-                resultPolynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree];
+                result_polynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree];
             }
+
+            continue;
         }
 
-        resultPolynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree] + polynomial2.m_coefficients[degree];
+        result_polynomial->m_coefficients[degree] = polynomial1.m_coefficients[degree] + polynomial2.m_coefficients[degree];
     }
 
-    return *resultPolynomial;
+    return *result_polynomial;
+}
+
+Polynomial &operator*(const Polynomial &polynomial1, const Polynomial &polynomial2)
+{
+    // Return Value
+    Polynomial *result_polynomial = new Polynomial();
+
+    // Assign the degree
+    size_t result_PolynomialDegree = polynomial1.m_degree + polynomial2.m_degree;
+    result_polynomial->m_degree = result_PolynomialDegree;
+
+    // Make a coefficient List for the new one
+    result_polynomial->m_coefficients = new double[result_PolynomialDegree];
+
+    // Initialize coefficients to zero
+    for (size_t i = 0; i < result_PolynomialDegree; i++)
+    {
+        result_polynomial->m_coefficients[i] = 0.0;
+    }
+
+    // Multiply coefficients
+    for (size_t indexPoly1 = 0; indexPoly1 <= polynomial1.m_degree; indexPoly1++)
+    {
+        for (size_t indexPoly2 = 0; indexPoly2 <= polynomial2.m_degree; indexPoly2++)
+        {
+            result_polynomial->m_coefficients[indexPoly1 + indexPoly2] += (polynomial1.m_coefficients[indexPoly1] * polynomial2.m_coefficients[indexPoly2]);
+        }
+    }
+
+    return *result_polynomial;
 }
 
 void Polynomial::Print() const
