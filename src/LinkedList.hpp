@@ -17,6 +17,7 @@ public:
     int GetTotalNodes();
     bool IsEmpty();
     void InsertByIndex(int indexToInsert, int value);
+    void DeleteByIndex(int indexToDelete);
 
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
 };
@@ -152,6 +153,71 @@ void LinkedList::InsertByIndex(int indexToInsert, int value)
 
     prev_node->_next = newNode;
     newNode->_next = current_node;
+}
+
+/// @brief Delete A Node in the LinkedList by index. LinkedList start with index 0
+/// @param indexToDelete must larger than 0
+void LinkedList::DeleteByIndex(int indexToDelete)
+{
+    // If this LinkedList has no HEAD
+    if (this->_head == nullptr)
+    {
+        std::cout << "===============================================================" << std::endl;
+        std::cerr << "Linked List has no Node to Delete!";
+        return;
+    }
+
+    // If Index is Negative
+    if (indexToDelete < 0)
+    {
+        std::cout << "===============================================================" << std::endl;
+        std::cerr << "Illegal Position!" << std::endl;
+        std::cerr << "Index Must Start From 0" << std::endl;
+        return;
+    }
+
+    // If Index is the HEAD of the LinkedList
+    if (indexToDelete == 0)
+    {
+        // Change the new HEAD
+        Node *node_to_delete = this->_head;
+        this->_head = node_to_delete->_next;
+
+        delete node_to_delete;
+        return;
+    }
+
+    // If the node to delete is in the middle
+    // 2 Node to travel
+    Node *prev_node = nullptr;
+    Node *node_to_delete = this->_head;
+
+    bool canDelete = true;
+    for (size_t index = 0; index < indexToDelete; index++)
+    {
+        prev_node = node_to_delete;
+        node_to_delete = node_to_delete->_next;
+
+        // If Out or Bound of the LinkedList
+        if (node_to_delete == nullptr)
+        {
+            canDelete = false;
+            break;
+        }
+    }
+
+    // Delete the Node to delete
+    if (canDelete)
+    {
+        prev_node->_next = node_to_delete->_next;
+        delete node_to_delete;
+        return;
+    }
+
+    // Out of Bound -> Cannot Delete
+    std::cout << "===============================================================" << std::endl;
+    std::cerr << "Index Out Of Bounds!" << std::endl;
+    std::cerr << "Cannot Delete!" << std::endl;
 }
 
 #endif
