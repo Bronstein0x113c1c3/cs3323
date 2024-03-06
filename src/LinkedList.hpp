@@ -18,7 +18,9 @@ public:
     bool IsEmpty();
     void InsertByIndex(int indexToInsert, int value);
     void DeleteByIndex(int indexToDelete);
+    void DeleteAll();
 
+    LinkedList &operator=(const LinkedList &other);
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
 };
 
@@ -26,20 +28,7 @@ LinkedList::LinkedList() : _head(nullptr) {}
 
 LinkedList::~LinkedList()
 {
-    Node *current_node = this->_head;
-
-    while (current_node != nullptr)
-    {
-        Node *node_to_delete = current_node;
-
-        // Move to the next Node
-        current_node = current_node->_next;
-        delete node_to_delete;
-    }
-
-    // Assign the nullptr for the HEAD
-    // To prevent memory leak
-    _head = nullptr;
+    this->DeleteAll();
 }
 
 LinkedList::LinkedList(const LinkedList &other)
@@ -59,6 +48,38 @@ LinkedList::LinkedList(const LinkedList &other)
         // Move to the next node
         other_current_node = other_current_node->_next;
     }
+}
+
+LinkedList &LinkedList::operator=(const LinkedList &other)
+{
+    // Avoid self-assignment
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    // Delete all existing resource
+    this->DeleteAll();
+
+    // Deep Copy all the Node From other --> this
+    // ========================================================================
+    // Assign the Head
+    this->_head = new Node(other._head->_value);
+
+    // Make 2 pointer to keep track Other and This
+    Node *this_current_node = this->_head;
+    Node *other_current_node = other._head->_next;
+
+    while (other_current_node != nullptr)
+    {
+        // Make a node
+        this_current_node->_next = new Node(other_current_node->_value);
+
+        // Move to the next node
+        other_current_node = other_current_node->_next;
+    }
+
+    return *this;
 }
 
 std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
@@ -218,6 +239,24 @@ void LinkedList::DeleteByIndex(int indexToDelete)
     std::cout << "===============================================================" << std::endl;
     std::cerr << "Index Out Of Bounds!" << std::endl;
     std::cerr << "Cannot Delete!" << std::endl;
+}
+
+void LinkedList::DeleteAll()
+{
+    Node *current_node = this->_head;
+
+    while (current_node != nullptr)
+    {
+        Node *node_to_delete = current_node;
+
+        // Move to the next Node
+        current_node = current_node->_next;
+        delete node_to_delete;
+    }
+
+    // Assign the nullptr for the HEAD
+    // To prevent memory leak
+    _head = nullptr;
 }
 
 #endif
