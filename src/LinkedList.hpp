@@ -15,6 +15,7 @@ public:
     LinkedList(const LinkedList &other);
 
     int GetTotalNodes();
+    bool IsEmpty();
     void Insert(int positionToInsert, int value);
 
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
@@ -94,6 +95,12 @@ int LinkedList::GetTotalNodes()
     }
 
     return counter;
+}
+
+bool LinkedList::IsEmpty()
+{
+    // IF Empty -> Head == null
+    return this->_head == nullptr;
 }
 
 /// @brief Insert at positionToInsert with the value. LinkedList start with index 0

@@ -21,5 +21,12 @@ int main(int argc, char const *argv[])
     std::cout << "===============================================================" << std::endl;
     std::cout << linkedList << std::endl;
 
+    // Try To Check out is empty or not
+    std::cout << "===============================================================" << std::endl;
+    std::cout << std::format(
+        "Linked List is {}!\n",
+        (linkedList.IsEmpty() ? "empty" : "not empty")
+    );
+                
     return 0;
 }
