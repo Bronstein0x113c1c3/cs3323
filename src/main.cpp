@@ -11,7 +11,10 @@ int main(int argc, char const *argv[])
 
     // polynomial.Print();
     std::cout << "==============================================================================" << std::endl;
-    int x_value = 3;
+    int x_value;
+    std::cout << "Enter x to calculate: ";
+    std::cin >> x_value;
+    std::cin.ignore();
     std::cout << std::format("Result when x = {} is {}", x_value, polynomial1.GetResult(x_value))
               << std::endl;
 
