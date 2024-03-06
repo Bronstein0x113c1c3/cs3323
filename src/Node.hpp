@@ -10,11 +10,7 @@ struct Node
     Node(int value) : _value(value), _next(nullptr){};
     Node(int value, Node *next) : _value(value), _next(next){};
     
-    ~Node() 
-    {
-        delete _next;
-        _next = nullptr;
-    };
+    ~Node() {};
 };
 
 #endif

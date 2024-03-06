@@ -12,5 +12,10 @@ int main(int argc, char const *argv[])
     std::cout << std::format("Total Nodes: {}", total_nodes)
               << std::endl;
 
+    // Try to Insert
+    linkedList.Insert(1, 10);
+    linkedList.Insert(1, 20);
+    linkedList.Insert(1, 30);
+
     return 0;
 }
