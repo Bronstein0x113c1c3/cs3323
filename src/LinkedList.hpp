@@ -16,7 +16,7 @@ public:
 
     int GetTotalNodes();
     bool IsEmpty();
-    void Insert(int positionToInsert, int value);
+    void InsertByIndex(int indexToInsert, int value);
 
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
 };
@@ -103,12 +103,12 @@ bool LinkedList::IsEmpty()
     return this->_head == nullptr;
 }
 
-/// @brief Insert at positionToInsert with the value. LinkedList start with index 0
-/// @param positionToInsert must larger than 0
+/// @brief Insert at indexToInsert with the value. LinkedList start with index 0
+/// @param indexToInsert must larger than 0
 /// @param value
-void LinkedList::Insert(int positionToInsert, int value)
+void LinkedList::InsertByIndex(int indexToInsert, int value)
 {
-    if (positionToInsert < 0)
+    if (indexToInsert < 0)
     {
         std::cout << "===============================================================" << std::endl;
         std::cerr << "Illegal Position!" << std::endl;
@@ -120,7 +120,7 @@ void LinkedList::Insert(int positionToInsert, int value)
     Node *newNode = new Node(value);
 
     // Insert At Head
-    if (positionToInsert == 0 || this->_head == nullptr)
+    if (indexToInsert == 0 || this->_head == nullptr)
     {
         std::cout << "===============================================================" << std::endl;
         std::cout << "Insert!" << std::endl;
@@ -134,7 +134,7 @@ void LinkedList::Insert(int positionToInsert, int value)
     Node *prev_node = nullptr;
     Node *current_node = this->_head;
 
-    for (size_t index = 0; index < positionToInsert; index++)
+    for (size_t index = 0; index < indexToInsert; index++)
     {
         // If Found
         if (current_node == nullptr)
