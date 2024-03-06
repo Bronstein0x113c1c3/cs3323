@@ -16,6 +16,7 @@ LIBS =
 # For Building Application
 .PHONY: directories
 .PHONY: run 
+.PHONY: valgrind	# For Linux-Valgrind Only
 .PHONY: clean
 all: directories $(BIN_DIR)/$(NAME)
 
@@ -47,6 +48,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 run: $(BIN_DIR)/$(NAME)
 	@echo Running: $<.exe 
 	@./$<
+	@echo ===============================================================
+
+# To Check For Memory Leak
+valgrind: $(BIN_DIR)/$(NAME)
+	@echo Checking Memory Leak: $<.exe 
+	@valgrind ./$<
 	@echo ===============================================================
 
 # Clean All Files
