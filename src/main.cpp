@@ -53,6 +53,8 @@ int main(int argc, char const *argv[])
     std::cout << linkedList1 << std::endl;
 
 
+    // Try to Traverse the LinkedList
+    linkedList1.TraverseAllNodes();
 
     return 0;
 }

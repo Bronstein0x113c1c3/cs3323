@@ -19,6 +19,7 @@ public:
     void InsertByIndex(int indexToInsert, int value);
     void DeleteByIndex(int indexToDelete);
     void DeleteAll();
+    void TraverseAllNodes();
 
     LinkedList &operator=(const LinkedList &other);
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
@@ -123,6 +124,11 @@ bool LinkedList::IsEmpty()
 {
     // IF Empty -> Head == null
     return this->_head == nullptr;
+}
+
+void LinkedList::TraverseAllNodes()
+{
+    std::cout << *this << std::endl;
 }
 
 /// @brief Insert at indexToInsert with the value. LinkedList start with index 0
