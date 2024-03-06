@@ -21,6 +21,7 @@ public:
     int GetTotalNodes();
     bool IsEmpty();
     void TraverseAllNodes();
+    bool IsValueAscending();
 
     // Search Functions
     Node *SearchLinear(const int valueToSearch);
@@ -176,6 +177,33 @@ Node *LinkedList::SearchLinear(const int valueToSearch)
     }
 
     return result_node;
+}
+
+bool LinkedList::IsValueAscending()
+{
+    // The Return Value
+    bool isAscending = false;
+
+    // The Node to track
+    Node *prev_node = nullptr;
+    Node *current_node = this->_head;
+    
+    while (current_node->_next != nullptr)
+    {
+        // Move to the next node to check
+        prev_node = current_node;
+        current_node = current_node->_next;
+
+        // Check is Ascending 
+        // By Compare prev and current 
+        isAscending = prev_node->_value <= current_node->_value;
+        if (!isAscending)
+        {
+            break;
+        }
+    }
+
+    return isAscending;
 }
 
 /// @brief Insert at indexToInsert with the value. LinkedList start with index 0

@@ -37,9 +37,9 @@ int main(int argc, char const *argv[])
     // Try To Assign A New LinkedList
     std::cout << "===============================================================" << std::endl;
     LinkedList linkedList2 = LinkedList();
-    // linkedList2.InsertByIndex(0, 10000);
-    // linkedList2.InsertByIndex(1, 20000);
-    // linkedList2.InsertByIndex(2, 30000);
+    linkedList2.InsertByIndex(0, 10000);
+    linkedList2.InsertByIndex(1, 20000);
+    linkedList2.InsertByIndex(2, 30000);
 
     std::cout << "Before Assigned: " << std::endl;
 
@@ -55,7 +55,8 @@ int main(int argc, char const *argv[])
               << std::endl;
 
     // Try to Traverse the LinkedList
-    // linkedList1.TraverseAllNodes();
+    std::cout << "===============================================================" << std::endl;
+    linkedList1.TraverseAllNodes();
 
     // Try to Search the LinkedList
     std::cout << "===============================================================" << std::endl;
@@ -81,11 +82,20 @@ int main(int argc, char const *argv[])
               << std::endl
               << std::endl;
 
-    linkedList1.ReverseAllNodes();
+    // linkedList1.ReverseAllNodes();
     std::cout << "After Reverse: " << std::endl;
     std::cout << linkedList1
               << std::endl
               << std::endl;
+
+    // Try to check the Linked List is in Ascending Order or not
+    std::cout << "===============================================================" << std::endl;
+    std::cout << linkedList1 << std::endl;
+
+    bool isAscending = linkedList1.IsValueAscending();
+    std::cout << std::format(
+        "Linked List {} in Ascending Order\n",
+        isAscending ? "is" : "is not");
 
     return 0;
 }
