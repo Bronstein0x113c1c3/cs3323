@@ -14,12 +14,20 @@ public:
     ~LinkedList();
     LinkedList(const LinkedList &other);
 
+    // Mics Functions
     int GetTotalNodes();
     bool IsEmpty();
+    void TraverseAllNodes();
+
+    // Search Functions
+    Node *SearchLinear(const int valueToSearch);
+
+    // Insert Functions
     void InsertByIndex(int indexToInsert, int value);
+
+    // Delete Functions
     void DeleteByIndex(int indexToDelete);
     void DeleteAll();
-    void TraverseAllNodes();
 
     LinkedList &operator=(const LinkedList &other);
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
@@ -48,6 +56,7 @@ LinkedList::LinkedList(const LinkedList &other)
 
         // Move to the next node
         other_current_node = other_current_node->_next;
+        this_current_node = this_current_node->_next;
     }
 }
 
@@ -78,6 +87,7 @@ LinkedList &LinkedList::operator=(const LinkedList &other)
 
         // Move to the next node
         other_current_node = other_current_node->_next;
+        this_current_node = this_current_node->_next;
     }
 
     return *this;
@@ -129,6 +139,26 @@ bool LinkedList::IsEmpty()
 void LinkedList::TraverseAllNodes()
 {
     std::cout << *this << std::endl;
+}
+
+Node *LinkedList::SearchLinear(const int valueToSearch)
+{
+    // Node to return
+    Node *result_node = this->_head;
+
+    // Linear Search the Linked List
+    while (result_node != nullptr)
+    {
+        if (result_node->_value == valueToSearch)
+        {
+            break;
+        }
+
+        // Move to the next node
+        result_node = result_node->_next;
+    }
+
+    return result_node;
 }
 
 /// @brief Insert at indexToInsert with the value. LinkedList start with index 0
