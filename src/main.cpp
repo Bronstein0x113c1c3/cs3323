@@ -17,5 +17,9 @@ int main(int argc, char const *argv[])
     linkedList.Insert(1, 20);
     linkedList.Insert(1, 30);
 
+    // Try to Print
+    std::cout << "===============================================================" << std::endl;
+    std::cout << linkedList << std::endl;
+
     return 0;
 }

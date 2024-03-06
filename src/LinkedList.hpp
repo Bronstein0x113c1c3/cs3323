@@ -2,6 +2,7 @@
 #define LINKED_LIST_HPP
 
 #include "Node.hpp"
+#include <iostream>
 
 class LinkedList
 {
@@ -15,6 +16,8 @@ public:
 
     int GetTotalNodes();
     void Insert(int positionToInsert, int value);
+
+    friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
 };
 
 LinkedList::LinkedList() : _head(nullptr) {}
@@ -54,6 +57,26 @@ LinkedList::LinkedList(const LinkedList &other)
         // Move to the next node
         other_current_node = other_current_node->_next;
     }
+}
+
+std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
+{
+    os << "===============================================================" << std::endl;
+    os << "Linked List:" << std::endl;
+    os << "HEAD: ";
+
+    // Current Node to track
+    Node *current_node = linkedList._head;
+    while (current_node != nullptr)
+    {
+        os << current_node->_value << " ---> ";
+
+        // Move to the next node
+        current_node = current_node->_next;
+    }
+    os << "NULL";
+
+    return os;
 }
 
 int LinkedList::GetTotalNodes()
