@@ -9,6 +9,9 @@ class LinkedList
 private:
     Node *_head;
 
+    // Helper Function to Recursively Reverse
+    Node *ReverseAllNodesRecursively(Node *current_node = nullptr);
+
 public:
     LinkedList();
     ~LinkedList();
@@ -29,6 +32,9 @@ public:
     void DeleteByIndex(int indexToDelete);
     void DeleteAll();
 
+    // Reverse Function
+    void ReverseAllNodes();
+
     LinkedList &operator=(const LinkedList &other);
     friend std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList);
 };
@@ -42,6 +48,12 @@ LinkedList::~LinkedList()
 
 LinkedList::LinkedList(const LinkedList &other)
 {
+    // Check if other has HEAD
+    if (other._head == nullptr)
+    {
+        return;
+    }
+
     // Assign the Head
     this->_head = new Node(other._head->_value);
 
@@ -73,6 +85,12 @@ LinkedList &LinkedList::operator=(const LinkedList &other)
 
     // Deep Copy all the Node From other --> this
     // ========================================================================
+    // Check if other has HEAD
+    if (other._head == nullptr)
+    {
+        return *this;
+    }
+
     // Assign the Head
     this->_head = new Node(other._head->_value);
 
@@ -95,7 +113,6 @@ LinkedList &LinkedList::operator=(const LinkedList &other)
 
 std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
 {
-    os << "===============================================================" << std::endl;
     os << "Linked List:" << std::endl;
     os << "HEAD: ";
 
@@ -168,7 +185,6 @@ void LinkedList::InsertByIndex(int indexToInsert, int value)
 {
     if (indexToInsert < 0)
     {
-        std::cout << "===============================================================" << std::endl;
         std::cerr << "Illegal Position!" << std::endl;
         std::cerr << "Index Must Start From 0" << std::endl;
         return;
@@ -180,9 +196,6 @@ void LinkedList::InsertByIndex(int indexToInsert, int value)
     // Insert At Head
     if (indexToInsert == 0 || this->_head == nullptr)
     {
-        std::cout << "===============================================================" << std::endl;
-        std::cout << "Insert!" << std::endl;
-
         newNode->_next = this->_head;
         this->_head = newNode;
         return;
@@ -205,9 +218,6 @@ void LinkedList::InsertByIndex(int indexToInsert, int value)
     }
 
     // Assign the Node
-    std::cout << "===============================================================" << std::endl;
-    std::cout << "Insert!" << std::endl;
-
     prev_node->_next = newNode;
     newNode->_next = current_node;
 }
@@ -219,7 +229,7 @@ void LinkedList::DeleteByIndex(int indexToDelete)
     // If this LinkedList has no HEAD
     if (this->_head == nullptr)
     {
-        std::cout << "===============================================================" << std::endl;
+
         std::cerr << "Linked List has no Node to Delete!";
         return;
     }
@@ -227,7 +237,7 @@ void LinkedList::DeleteByIndex(int indexToDelete)
     // If Index is Negative
     if (indexToDelete < 0)
     {
-        std::cout << "===============================================================" << std::endl;
+
         std::cerr << "Illegal Position!" << std::endl;
         std::cerr << "Index Must Start From 0" << std::endl;
         return;
@@ -272,7 +282,6 @@ void LinkedList::DeleteByIndex(int indexToDelete)
     }
 
     // Out of Bound -> Cannot Delete
-    std::cout << "===============================================================" << std::endl;
     std::cerr << "Index Out Of Bounds!" << std::endl;
     std::cerr << "Cannot Delete!" << std::endl;
 }
@@ -293,6 +302,47 @@ void LinkedList::DeleteAll()
     // Assign the nullptr for the HEAD
     // To prevent memory leak
     _head = nullptr;
+}
+
+void LinkedList::ReverseAllNodes()
+{
+    // Don't Has HEAD ---> Can Not Reverse
+    if (this->_head == nullptr)
+    {
+        return;
+    }
+
+    this->ReverseAllNodesRecursively();
+}
+
+/// @brief Reverse the LinkedList using Stack FIFO principle
+/// @param current_node The Current Node
+/// @return The Next Node
+Node *LinkedList::ReverseAllNodesRecursively(Node *current_node)
+{
+    // Base Case
+    // Reach the Last Node
+    if (current_node != nullptr)
+    {
+        if (current_node->_next == nullptr)
+        {
+            // Assign the new HEAD
+            this->_head = current_node;
+            return current_node;
+        }
+    }
+
+    Node *next_node = nullptr;
+    if (current_node == nullptr)
+    {
+        next_node = ReverseAllNodesRecursively(this->_head);
+    }
+    else
+    {
+        next_node = ReverseAllNodesRecursively(current_node->_next);
+    }
+    next_node->_next = current_node;
+    return current_node;
 }
 
 #endif

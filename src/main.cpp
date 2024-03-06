@@ -37,16 +37,22 @@ int main(int argc, char const *argv[])
     // Try To Assign A New LinkedList
     std::cout << "===============================================================" << std::endl;
     LinkedList linkedList2 = LinkedList();
-    linkedList2.InsertByIndex(0, 10000);
-    linkedList2.InsertByIndex(2, 20000);
-    linkedList2.InsertByIndex(1, 30000);
+    // linkedList2.InsertByIndex(0, 10000);
+    // linkedList2.InsertByIndex(1, 20000);
+    // linkedList2.InsertByIndex(2, 30000);
 
     std::cout << "Before Assigned: " << std::endl;
-    std::cout << linkedList1 << std::endl;
+
+    std::cout << linkedList1
+              << std::endl
+              << std::endl;
 
     linkedList1 = linkedList2;
     std::cout << "After Assigned: " << std::endl;
-    std::cout << linkedList1 << std::endl;
+
+    std::cout << linkedList1
+              << std::endl
+              << std::endl;
 
     // Try to Traverse the LinkedList
     // linkedList1.TraverseAllNodes();
@@ -67,6 +73,19 @@ int main(int argc, char const *argv[])
         std::cout << "Value " << valueToSearch << " is exist at memory " << nodeToSearch << " in the LinkedList!"
                   << std::endl;
     }
+
+    // Try to Reverse the LinkedList
+    std::cout << "===============================================================" << std::endl;
+    std::cout << "Before Reverse: " << std::endl;
+    std::cout << linkedList1
+              << std::endl
+              << std::endl;
+
+    linkedList1.ReverseAllNodes();
+    std::cout << "After Reverse: " << std::endl;
+    std::cout << linkedList1
+              << std::endl
+              << std::endl;
 
     return 0;
 }
