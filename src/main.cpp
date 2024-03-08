@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
     std::cout << "===============================================================" << std::endl;
     bool isEmpty = numStack.Empty();
     std::cout << std::format(
-        "The Stack {} Empty!",
+        "The Stack {} Empty!\n",
         isEmpty ? "is" : "is not" 
     );
 
