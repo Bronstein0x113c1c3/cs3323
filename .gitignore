@@ -396,5 +396,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# Execution File
+*.exe
+
 # Ignore all the folder to turn on for assignment
 Assignment-*/
