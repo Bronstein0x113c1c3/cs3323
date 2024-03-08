@@ -3,7 +3,7 @@
 #include <cctype>
 #include <string>
 #include <unordered_map>
-#include <functional>
+#include <format>
 
 const std::unordered_map<char, int> Operator_Priority_Map = {
     {'^', 3},
@@ -17,8 +17,11 @@ bool isOperatorInStack_hasHigherPriority(const std::stack<char> &operatorsStack,
 //! Some Limit: Cannot work with nested Parenthesis (Ex: ((1 + 2) – 3 * (4 / 5)) + 6 )
 std::string infixToPostfixNotation(const std::string &infixNotation);
 
+bool isPostfixExpression(const std::string& postfixToEvaluate);
+
 int main(int argc, char const *argv[])
 {
+    // Try to Convert the Infix Notation --> Postfix Notation
     std::cout << "===============================================================" << std::endl;
     std::string infixNotation = "8 * (5 ^ 4 + 2) - 6 ^ 2 / (9 * 3)";
     std::string postfixNotation = infixToPostfixNotation(infixNotation);
@@ -30,6 +33,15 @@ int main(int argc, char const *argv[])
     std::cout << "Postfix Notation: "
               << postfixNotation
               << std::endl;
+
+    // Try to Check if that postfix is Valid
+    std::cout << "===============================================================" << std::endl;
+    bool isPostfix = isPostfixExpression(postfixNotation);
+    std::cout << std::format(
+        "{} {} a Postfix Notation!",
+        postfixNotation,
+        (isPostfix) ? "is" : "is not"
+    );
 
     return 0;
 }
@@ -176,4 +188,54 @@ bool isOperatorInStack_hasHigherPriority(const std::stack<char> &operatorsStack,
     }
 
     return Operator_Priority_Map.at(top_operator_in_stack) >= Operator_Priority_Map.at(currentOperator);
+}
+
+bool isPostfixExpression(const std::string& postfixToEvaluate)
+{
+    // Return Value
+    bool isPostfix = false;
+
+    // Check if First Character is Valid ?
+    char firstCharacter = postfixToEvaluate[0];
+    if (!std::isdigit(firstCharacter))  // Not a digit --> Return False
+    {
+        return isPostfix;
+    }
+
+    // Stack of Operands to Evaluate
+    std::stack<char> operandsStack = std::stack<char>();
+    
+    // Push the First Character into the stack
+    operandsStack.push(firstCharacter);
+
+    // First Operand Memory to check
+    char* firstOperand = &operandsStack.top();
+
+    // Loop through the postfix Notation 
+    // If Operand --> Push to the Stack
+    // If Operator --> Pop the first
+    for (char letter : postfixToEvaluate)
+    {
+        // If Operand --> Push to the Stack
+        if (std::isdigit(letter))
+        {
+            operandsStack.push(letter);
+        }
+        
+
+        // If Operator --> Pop the first element
+        if (Operator_Priority_Map.contains(letter))
+        {
+            operandsStack.pop();
+        }   
+    }
+
+    // Left the final character in the stack
+    // --> That &final_character == &first_operand
+    
+    // Get the final character
+    char& final_character = operandsStack.top();
+    isPostfix = (final_character == firstCharacter);
+
+    return isPostfix;
 }
