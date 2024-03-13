@@ -91,6 +91,7 @@
         "thread": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "strstream": "cpp"
+        "strstream": "cpp",
+        "*.ipp": "cpp"
     }
 }
