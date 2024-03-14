@@ -69,12 +69,14 @@ int main()
     // Try to Get the Mirror Image of this BST Tree
     // ===============================================================
     std::cout << "===============================================================" << std::endl;
+    std::cout << "Reverse Tree:" << std::endl;
     BST &reverseBST = tree.GetMirrorImage_BST();
     reverseBST.PrintTree();
 
     // Try to Use Copy Constructor 
     // ===============================================================
     std::cout << "===============================================================" << std::endl;
+    std::cout << "After Copy:" << std::endl;
     BST treeCopy(tree);
     tree.PrintTree();
 
