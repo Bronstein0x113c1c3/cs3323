@@ -48,5 +48,11 @@ int main()
     int level = tree.GetLevel(value);
     std::cout << std::format("{} is in {} from ROOT!\n", value, level);
 
+    // Try to Get Heigh of BST Tree 
+    // ===============================================================
+    std::cout << "===============================================================" << std::endl;    
+    int treeHeight = tree.GetHeight();
+    std::cout << std::format("Tree Height: {}\n", treeHeight);
+
     return 0;
 }

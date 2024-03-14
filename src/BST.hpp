@@ -19,6 +19,9 @@ class BST
     };
     BinNode *_root;
 
+    // Helper function for get Height
+    int GetHeightFromRoot(BinNode *root);
+
     // Helper function for recursive get level
     int GetNodeLevelFromRoot_recursiveWay(BinNode *node, bool &hasFound, int value);
     int GetNodeLevelFromRoot_nonRecursiveWay(int value);
@@ -57,6 +60,10 @@ public:
     /// @param value value in the tree
     /// @return the level in the BST Tree from the root
     int GetLevel(int value);
+
+    /// @brief Return the Height of the BST Tree from the ROOT
+    /// @return the height from the ROOT
+    int GetHeight();
 };
 
 //! Kumar's Part (Don't Touch!)
@@ -346,6 +353,32 @@ int BST::GetLevel(int value)
 
     // Non-Recursive Way
     return GetNodeLevelFromRoot_nonRecursiveWay(value);
+}
+
+int BST::GetHeightFromRoot(BinNode *root)
+{
+    // Base Case
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    int left_height = GetHeightFromRoot(root->lchild);
+    int right_height = GetHeightFromRoot(root->rchild);
+
+    return std::max(left_height, right_height) + 1;
+}
+
+int BST::GetHeight()
+{
+    // Check ROOT
+    if (_root == nullptr)
+    {
+        std::cout << "Empty Tree!" << std::endl;
+        return 0;
+    }
+
+    return GetHeightFromRoot(_root);
 }
 
 #endif
