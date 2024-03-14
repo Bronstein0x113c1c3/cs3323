@@ -60,5 +60,11 @@ int main()
     int totalLeafNodes = tree.GetLeafCount();
     std::cout << std::format("Total Leaf: {}\n", totalLeafNodes);
 
+    // Try to Get Total Nodes in the BST Tree
+    // ===============================================================
+    std::cout << "===============================================================" << std::endl;
+    int totalNodes = tree.GetSize();
+    std::cout << std::format("Total Nodes: {}\n", totalNodes);
+
     return 0;
 }
