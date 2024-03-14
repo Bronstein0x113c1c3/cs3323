@@ -19,6 +19,9 @@ class BST
     };
     BinNode *_root;
 
+    // Helper function for get total leaf nodes
+    int GetLeafNodesCount(BinNode* root);
+
     // Helper function for get Height
     int GetHeightFromRoot(BinNode *root);
 
@@ -64,6 +67,10 @@ public:
     /// @brief Return the Height of the BST Tree from the ROOT
     /// @return the height from the ROOT
     int GetHeight();
+
+    /// @brief Return the Count of the Leaf Node in the BST Tree
+    /// @return the Total Nodes with left == nullptr && right == nullptr
+    int GetLeafCount();
 };
 
 //! Kumar's Part (Don't Touch!)
@@ -379,6 +386,41 @@ int BST::GetHeight()
     }
 
     return GetHeightFromRoot(_root);
+}
+
+int BST::GetLeafNodesCount(BinNode* root)
+{
+    // Base Case 1
+    if (root == nullptr)
+    {
+        return 0;
+    }
+    
+    // Base Case 2
+    // left == nullptr && right == nullptr
+    bool isLeaf = (root->lchild == nullptr) && (root->rchild == nullptr);
+    if (isLeaf)
+    {
+        return 1;
+    }
+    
+    int sum = 0;
+    sum += GetLeafNodesCount(root->lchild);
+    sum += GetLeafNodesCount(root->rchild);
+
+    return sum;
+}
+
+int BST::GetLeafCount()
+{
+    // Check Root
+    if (_root == nullptr)
+    {
+        std::cout << "Empty Tree!" << std::endl;
+        return 0;
+    }
+    
+    return GetLeafNodesCount(_root);
 }
 
 #endif
