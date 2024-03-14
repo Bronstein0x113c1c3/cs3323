@@ -85,6 +85,10 @@ public:
     /// @brief Return a new BST Tree with all the Reverse Node of the Original
     /// @return a new BST Tree with all the Reverse Node of the Original
     BST& GetMirrorImage_BST();
+
+    /// @brief To Check Whether this is a BST or not
+    /// @return true if BST else False
+    bool isBST();
 };
 
 //! Kumar's Part (Don't Touch!)
@@ -505,6 +509,11 @@ BST& BST::GetMirrorImage_BST()
     Copy_and_Reverse(original_root, new_root);
 
     return *mirrorBST;
+}
+
+bool BST::isBST()
+{
+    return _root != nullptr;
 }
 
 #endif
