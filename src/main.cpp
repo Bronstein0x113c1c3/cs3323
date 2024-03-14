@@ -72,5 +72,11 @@ int main()
     BST &reverseBST = tree.GetMirrorImage_BST();
     reverseBST.PrintTree();
 
+    // Try to Use Copy Constructor 
+    // ===============================================================
+    std::cout << "===============================================================" << std::endl;
+    BST treeCopy(tree);
+    tree.PrintTree();
+
     return 0;
 }

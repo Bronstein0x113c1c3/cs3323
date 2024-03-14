@@ -19,8 +19,11 @@ class BST
     };
     BinNode *_root;
 
+    // Helper function for copy all nodes
+    void Copy(BinNode *src_root, BinNode *dest_root);
+
     // Helper function for make reserve BST Tree
-    void Copy_and_Reverse(BinNode* src_root, BinNode* dest_root);
+    void Copy_and_Reverse(BinNode *src_root, BinNode *dest_root);
 
     // Helper function for get total nodes
     int GetTotalNodes(BinNode *root);
@@ -52,7 +55,7 @@ public:
     // ================================================================================
     BST();
     ~BST();
-    BST(BST &);
+    BST(const BST &otherBST);
     void insert(int); // insert item
     void erase(int);  // erase item
     bool search(int); // search item
@@ -84,7 +87,7 @@ public:
 
     /// @brief Return a new BST Tree with all the Reverse Node of the Original
     /// @return a new BST Tree with all the Reverse Node of the Original
-    BST& GetMirrorImage_BST();
+    BST &GetMirrorImage_BST();
 
     /// @brief To Check Whether this is a BST or not
     /// @return true if BST else False
@@ -147,10 +150,6 @@ void BST::inorderhelp(BinNode *node)
         std::cout << " " << node->value;
         inorderhelp(node->rchild);
     }
-}
-
-BST::BST(BST &)
-{
 }
 
 void BST::insert(int item)
@@ -317,7 +316,8 @@ int BST::GetNodeLevelFromRoot_recursiveWay(BinNode *node, bool &hasFound, int va
         return level + 1;
     }
 
-    return level;
+    // Return Unknown Level
+    return -999999;
 }
 
 int BST::GetNodeLevelFromRoot_nonRecursiveWay(int value)
@@ -351,7 +351,7 @@ int BST::GetNodeLevelFromRoot_nonRecursiveWay(int value)
         // IF Found ---> Break
         if (current_node->value == value)
         {
-            break;
+            return current_level;
         }
 
         // Not Found
@@ -359,8 +359,8 @@ int BST::GetNodeLevelFromRoot_nonRecursiveWay(int value)
         nodes_level_to_travel.push({current_level + 1, current_node->rchild});
     }
 
-    // Return Level
-    return current_level;
+    // Return Unknown Level
+    return -999999;
 }
 
 int BST::GetLevel(int value)
@@ -373,11 +373,11 @@ int BST::GetLevel(int value)
     }
 
     // Recursive Way
-    // bool hasFound = false;
-    // return GetNodeLevelFromRoot_recursiveWay(_root, hasFound, value);   // Start by the Root of the Tree
+    bool hasFound = false;
+    return GetNodeLevelFromRoot_recursiveWay(_root, hasFound, value);   // Start by the Root of the Tree
 
     // Non-Recursive Way
-    return GetNodeLevelFromRoot_nonRecursiveWay(value);
+    // return GetNodeLevelFromRoot_nonRecursiveWay(value);
 }
 
 int BST::GetHeightFromRoot(BinNode *root)
@@ -448,7 +448,7 @@ int BST::GetTotalNodes(BinNode *root)
     {
         return 0;
     }
-    
+
     int sum = 1;
     sum += GetTotalNodes(root->lchild);
     sum += GetTotalNodes(root->rchild);
@@ -464,46 +464,46 @@ int BST::GetSize()
         std::cout << "Empty Tree!" << std::endl;
         return 0;
     }
-    
+
     return GetTotalNodes(_root);
 }
 
-void BST::Copy_and_Reverse(BinNode* src_root, BinNode* dest_root)
+void BST::Copy_and_Reverse(BinNode *src_root, BinNode *dest_root)
 {
     // Base Case
     if (src_root == nullptr)
     {
         return;
     }
-    
+
     // Copy src_root->left ---> dest_root->right
-    BinNode* left_src_root = src_root->lchild;
-    if (left_src_root != nullptr)       // IF !NULL ---> Assign value
+    BinNode *left_src_root = src_root->lchild;
+    if (left_src_root != nullptr) // IF !NULL ---> Assign value
     {
         dest_root->rchild = new BinNode(left_src_root->value);
     }
     Copy_and_Reverse(left_src_root, dest_root->rchild);
 
     // Copy src_root->right ---> dest_root->left
-    BinNode* right_src_root = src_root->rchild;
-    if (right_src_root != nullptr)      // IF !NULL ---> Assign value
+    BinNode *right_src_root = src_root->rchild;
+    if (right_src_root != nullptr) // IF !NULL ---> Assign value
     {
         dest_root->lchild = new BinNode(right_src_root->value);
     }
     Copy_and_Reverse(right_src_root, dest_root->lchild);
 }
 
-BST& BST::GetMirrorImage_BST()
+BST &BST::GetMirrorImage_BST()
 {
     // BST Tree to return
-    BST* mirrorBST = new BST();
+    BST *mirrorBST = new BST();
 
     // Make New Root = ROOT
-    BinNode* new_root = new BinNode(_root->value);
+    BinNode *new_root = new BinNode(_root->value);
     mirrorBST->_root = new_root;
 
     // Traverse the Original BST Tree
-    BinNode* original_root = _root;
+    BinNode *original_root = _root;
 
     // Copy And Reverse
     Copy_and_Reverse(original_root, new_root);
@@ -514,6 +514,41 @@ BST& BST::GetMirrorImage_BST()
 bool BST::isBST()
 {
     return _root != nullptr;
+}
+
+void BST::Copy(BinNode *src_root, BinNode *dest_root)
+{
+    // Base Case
+    if (src_root == nullptr)
+    {
+        return;
+    }
+
+    // src_root->left ---> dest_root->left
+    BinNode* src_root_left = src_root->lchild;
+    if (src_root_left != nullptr)
+    {
+        dest_root->lchild = new BinNode(src_root_left->value);
+    }
+    Copy(src_root_left, dest_root->lchild);
+
+    // src_root->right ---> dest_root->right
+    BinNode* src_root_right = src_root->rchild;
+    if (src_root_right != nullptr)
+    {
+        dest_root->rchild = new BinNode(src_root_right->value);
+    }
+    Copy(src_root_right, dest_root->rchild);
+}
+
+BST::BST(const BST &otherBST)
+{
+    // Make Root
+    BinNode *src_root = otherBST._root;
+    this->_root = new BinNode(src_root->value);
+
+    // Copy Original ---> Dest
+    Copy(src_root, this->_root);
 }
 
 #endif
