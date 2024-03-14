@@ -19,6 +19,9 @@ class BST
     };
     BinNode *_root;
 
+    // Helper function for make reserve BST Tree
+    void Copy_and_Reverse(BinNode* src_root, BinNode* dest_root);
+
     // Helper function for get total nodes
     int GetTotalNodes(BinNode *root);
 
@@ -78,6 +81,10 @@ public:
     /// @brief Return the total number of nodes in the BST Tree
     /// @return the total number of nodes in the BST Tree
     int GetSize();
+
+    /// @brief Return a new BST Tree with all the Reverse Node of the Original
+    /// @return a new BST Tree with all the Reverse Node of the Original
+    BST& GetMirrorImage_BST();
 };
 
 //! Kumar's Part (Don't Touch!)
@@ -455,6 +462,49 @@ int BST::GetSize()
     }
     
     return GetTotalNodes(_root);
+}
+
+void BST::Copy_and_Reverse(BinNode* src_root, BinNode* dest_root)
+{
+    // Base Case
+    if (src_root == nullptr)
+    {
+        return;
+    }
+    
+    // Copy src_root->left ---> dest_root->right
+    BinNode* left_src_root = src_root->lchild;
+    if (left_src_root != nullptr)       // IF !NULL ---> Assign value
+    {
+        dest_root->rchild = new BinNode(left_src_root->value);
+    }
+    Copy_and_Reverse(left_src_root, dest_root->rchild);
+
+    // Copy src_root->right ---> dest_root->left
+    BinNode* right_src_root = src_root->rchild;
+    if (right_src_root != nullptr)      // IF !NULL ---> Assign value
+    {
+        dest_root->lchild = new BinNode(right_src_root->value);
+    }
+    Copy_and_Reverse(right_src_root, dest_root->lchild);
+}
+
+BST& BST::GetMirrorImage_BST()
+{
+    // BST Tree to return
+    BST* mirrorBST = new BST();
+
+    // Make New Root = ROOT
+    BinNode* new_root = new BinNode(_root->value);
+    mirrorBST->_root = new_root;
+
+    // Traverse the Original BST Tree
+    BinNode* original_root = _root;
+
+    // Copy And Reverse
+    Copy_and_Reverse(original_root, new_root);
+
+    return *mirrorBST;
 }
 
 #endif

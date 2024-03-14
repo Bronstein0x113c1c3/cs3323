@@ -66,5 +66,11 @@ int main()
     int totalNodes = tree.GetSize();
     std::cout << std::format("Total Nodes: {}\n", totalNodes);
 
+    // Try to Get the Mirror Image of this BST Tree
+    // ===============================================================
+    std::cout << "===============================================================" << std::endl;
+    BST &reverseBST = tree.GetMirrorImage_BST();
+    reverseBST.PrintTree();
+
     return 0;
 }
