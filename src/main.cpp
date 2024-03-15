@@ -80,5 +80,14 @@ int main()
     BST treeCopy(tree);
     tree.PrintTree();
 
+    // Try to Use isBST()
+    // ===============================================================
+    std::cout << "===============================================================" << std::endl;
+    bool isBST = tree.isBST();
+    std::cout << std::format(
+        "Tree {} a Binary Search Tree!\n",
+        isBST ? "is" : "is not" 
+    );
+
     return 0;
 }

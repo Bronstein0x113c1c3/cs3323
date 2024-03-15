@@ -374,7 +374,7 @@ int BST::GetLevel(int value)
 
     // Recursive Way
     bool hasFound = false;
-    return GetNodeLevelFromRoot_recursiveWay(_root, hasFound, value);   // Start by the Root of the Tree
+    return GetNodeLevelFromRoot_recursiveWay(_root, hasFound, value); // Start by the Root of the Tree
 
     // Non-Recursive Way
     // return GetNodeLevelFromRoot_nonRecursiveWay(value);
@@ -513,7 +513,57 @@ BST &BST::GetMirrorImage_BST()
 
 bool BST::isBST()
 {
-    return _root != nullptr;
+    // Use BFS Approach
+    BinNode *current_node_left = nullptr;
+    BinNode *current_node_right = nullptr;
+    BinNode *current_node = _root;
+    std::queue<BinNode *> nodes_to_travel;
+
+    // Append the First node
+    nodes_to_travel.push(current_node);
+
+    // Traverse all the Nodes
+    // Until queue is Empty!
+    while (!nodes_to_travel.empty())
+    {
+        current_node = nodes_to_travel.front();
+        nodes_to_travel.pop();
+
+        // IF Null ---> Continue
+        if (current_node == nullptr)
+        {
+            continue;
+        }
+
+        // Check Left
+        bool isLeftValid = true;
+        current_node_left = current_node->lchild;
+        if (current_node_left != nullptr)
+        {
+            isLeftValid = current_node->value >= current_node_left->value;
+        }
+        
+        // Check Right
+        bool isRightValid = true;
+        current_node_right = current_node->rchild;
+        if (current_node_right != nullptr)
+        {
+            isRightValid = current_node->value <= current_node_right->value;
+        }
+
+        // Check if isValidLeft and isValidRight == false ---> Return Immediately
+        if (!(isLeftValid && isRightValid))
+        {
+            return false;
+        }
+
+        // Push next nodes
+        nodes_to_travel.push(current_node_left);
+        nodes_to_travel.push(current_node_right);
+    }
+
+    // When all Case has Evaluated ---> True
+    return true;
 }
 
 void BST::Copy(BinNode *src_root, BinNode *dest_root)
@@ -525,7 +575,7 @@ void BST::Copy(BinNode *src_root, BinNode *dest_root)
     }
 
     // src_root->left ---> dest_root->left
-    BinNode* src_root_left = src_root->lchild;
+    BinNode *src_root_left = src_root->lchild;
     if (src_root_left != nullptr)
     {
         dest_root->lchild = new BinNode(src_root_left->value);
@@ -533,7 +583,7 @@ void BST::Copy(BinNode *src_root, BinNode *dest_root)
     Copy(src_root_left, dest_root->lchild);
 
     // src_root->right ---> dest_root->right
-    BinNode* src_root_right = src_root->rchild;
+    BinNode *src_root_right = src_root->rchild;
     if (src_root_right != nullptr)
     {
         dest_root->rchild = new BinNode(src_root_right->value);
