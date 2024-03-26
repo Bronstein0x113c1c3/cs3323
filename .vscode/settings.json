@@ -93,5 +93,22 @@
         "variant": "cpp",
         "strstream": "cpp",
         "*.ipp": "cpp"
-    }
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "ignore",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.block": "ignore",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.lambda": "ignore",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "ignore",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "ignore",
+    "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": true,
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyType": true,
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyFunction": true,
+    "C_Cpp.vcFormat.newLine.beforeWhileInDoWhile": true,
+    "C_Cpp.vcFormat.indent.withinParentheses": "indent",
+    "C_Cpp.vcFormat.space.afterCastCloseParenthesis": true,
+    "C_Cpp.vcFormat.space.beforeFunctionOpenParenthesis": "remove",
+    "C_Cpp.vcFormat.space.withinParameterListParentheses": true,
+    "C_Cpp.vcFormat.space.betweenEmptyBraces": true,
+    "C_Cpp.vcFormat.space.betweenEmptyLambdaBrackets": true,
+    "C_Cpp.vcFormat.space.betweenEmptyParameterListParentheses": true
 }

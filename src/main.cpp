@@ -1,93 +1,76 @@
-#include "BST.hpp"
-#include <ctime>
-#include <cstdlib>
-#include <cmath>
-#include <format>
+#include "HashTable.hpp"
+#include <string>
 
-int main()
+struct Human
 {
-    srand(time(0));
-    BST tree;
-    for (int i = 0; i < 10; i++)
+    std::string name;
+    int age;
+
+    Human(std::string name, int age) : name(name), age(age) {}
+    Human(const Human &other)
     {
-        int insert_value = rand() % 51;
-
-        tree.insert(insert_value);
-        std::cout << std::format("Insert {} into BST Tree!\n", insert_value);
+        this->name = other.name;
+        this->age = other.age;
     }
-    std::cout << "inorder:\n ";
-    tree.inorder();
-    std::cout << "preorder:\n ";
-    tree.preorder();
-    std::cout << "postorder:\n ";
-    tree.postorder();
-    // int item;
+};
 
-    // for (int i = 0; i < 5; i++)
-    // {
-    //     std::cout << "enter item to delete \n";
-    //     std::cin >> item;
-    //     tree.erase(item);
-    //     std::cout << tree << "\n \n \n";
-    //     std::cout << " to erase next number: \n";
-    //     system("pause");
-    // }
-    // system("pause");
+int main(int argc, char const *argv[])
+{
+    // Init the hash Table
+    HashTable<int, Human> human_hash_table = HashTable<int, Human>(10);
 
-    // Try to Print Tree A Better Format
-    // ===============================================================
+    // Insert some Value
     std::cout << "===============================================================" << std::endl;
-    tree.PrintTree();
+    human_hash_table.Insert(
+        21,
+        Human("Sad Nguyen", 21)
 
-    // Try to Get Level of Some Value in the BST Tree (Recursive Way && Non Recursive Way)
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    int value;
-    std::cout << "Enter the Value to check Level: ";
-    std::cin >> value;
-    int level = tree.GetLevel(value);
-    std::cout << std::format("{} is in {} from ROOT!\n", value, level);
-
-    // Try to Get Heigh of BST Tree
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    int treeHeight = tree.GetHeight();
-    std::cout << std::format("Tree Height: {}\n", treeHeight);
-
-    // Try to Get Total Leaf Node in the BST Tree
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    int totalLeafNodes = tree.GetLeafCount();
-    std::cout << std::format("Total Leaf: {}\n", totalLeafNodes);
-
-    // Try to Get Total Nodes in the BST Tree
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    int totalNodes = tree.GetSize();
-    std::cout << std::format("Total Nodes: {}\n", totalNodes);
-
-    // Try to Get the Mirror Image of this BST Tree
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    std::cout << "Reverse Tree:" << std::endl;
-    BST &reverseBST = tree.GetMirrorImage_BST();
-    reverseBST.PrintTree();
-
-    // Try to Use Copy Constructor 
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    std::cout << "After Copy:" << std::endl;
-    BST treeCopy(tree);
-    tree.PrintTree();
-
-    // Try to Use isBST()
-    // ===============================================================
-    std::cout << "===============================================================" << std::endl;
-    bool isBST = tree.isBST();
-    std::cout << std::format(
-        "Tree {} a Binary Search Tree!\n",
-        isBST ? "is" : "is not" 
     );
+
+    human_hash_table.Insert(
+        10,
+        Human("Duy Tran", 10)
+
+    );
+
+    human_hash_table.Insert(
+        31,
+        Human("Tuan Anh", 31)
+
+    );
+    
+    human_hash_table.Print();
+
+    // Try to Search the value with the key
+    std::cout << "===============================================================" << std::endl;
+    std::size_t key_to_search = 31;
+    Human* human_to_search = human_hash_table.Search(key_to_search);
+
+    std::cout << std::format(
+        "{} {} appear in the Hash Table!\n",
+        key_to_search,
+        (human_to_search == nullptr) ? "is not" : "is"
+
+    );
+
+    // Delete the key
+    std::cout << "===============================================================" << std::endl;
+    std::size_t key_to_delete = 21;
+    human_hash_table.Delete(key_to_delete);
+
+    std::cout << std::format(
+        "Hash Table after delete key {}!\n",
+        key_to_delete
+
+    );
+    human_hash_table.Print();
+
+    // Try to use the Copy Constructor
+    std::cout << "===============================================================" << std::endl;
+    HashTable<int, Human> human_hash_table_copy = HashTable<int, Human>(human_hash_table);
+    
+    std::cout << "New Hash Table after copy!" << std::endl;
+    human_hash_table_copy.Print();
 
     return 0;
 }
